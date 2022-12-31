@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/notTGY/coffee-break/issues"
   },
-  "homepage": "https://github.com/notTGY/coffee-break#readme"
+  "homepage": "https://github.com/notTGY/coffee-break#readme",
+  "dependencies": {
+    "sqlite3": "^5.1.4"
+  }
 }
