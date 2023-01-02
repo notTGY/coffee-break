@@ -1,27 +1,19 @@
 const http = require('http');
 const router = require('./server/route.js')
-const db = require('./db/db.js')
 
-const PORT = 8080
+const PORT = 3000
 
-const sleep = (delay) => new Promise(
-  (res, rej) => {
-    setTimeout(() => res(), delay)
-  }
-)
-
-db.init()
-router.post('/start-break', (body) => {
+router.post('/api/start-break', (body) => {
 })
 router.get(
-  '/',
+  '/api',
   async () => {
-    await sleep(5000)
     return JSON.stringify({message: 'hi'})
   },
 )
 
 http.createServer(async (req, res) => {
+  console.log('hit')
   let result
   try {
     result = await router.handle(req)

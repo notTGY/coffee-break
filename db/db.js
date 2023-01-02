@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3')
 const { resolve } = require('path')
 const { readFileSync } = require('fs')
 
-const DB_FILE = 'coffeebreak.db'
+const DB_FILE = './sqlite/coffeebreak.db'
 const SCHEMA_FILE = resolve(__dirname, 'schema.sql')
 const E_DB_NOT_OPEN = 'Database is not open'
 
@@ -33,7 +33,7 @@ const db = {
   },
 }
 
-async function init() {
+async function setup() {
   try {
     db.open()
     const schema = readFileSync(SCHEMA_FILE, 'utf8')
@@ -61,6 +61,7 @@ async function startRecording(
     console.log(e)
   }
 }
+
 async function endRecording(user_id) {
   try {
     const endTime = new Date()
@@ -80,7 +81,7 @@ async function endRecording(user_id) {
 
 
 module.exports = {
-  init,
+  setup,
   startRecording,
   endRecording,
 }
