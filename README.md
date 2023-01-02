@@ -1,5 +1,7 @@
 # Coffee break app
 
+[design](https://dribbble.com/shots/10759517-Pomodoro-timer)
+
 ## how to run Docker
 
 1. compile docker image
