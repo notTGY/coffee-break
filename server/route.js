@@ -21,11 +21,28 @@ async function handle(req) {
   const handler = routes[path]
     ? routes[path][method]
     : null
-  if (typeof handler === 'function') {
-    return routes[path][method](body)
-  } else {
-    return null
+  if (typeof handler !== 'function') {
+    return new Promise((res, rej) => {res(null)})
   }
+
+  return new Promise((resolve, reject) => {
+    req.on('data', data => {
+      body += data
+      if (body.length > 1000) {
+        req.connection.destroy()
+        resolve(null)
+      }
+    })
+    req.on('end', async () => {
+      try {
+        const parsedBody = JSON.parse(body)
+        const prom = handler(parsedBody)
+        return await prom
+      } catch(e) {
+        resolve(null)
+      }
+    })
+  })
 }
 
 module.exports = {

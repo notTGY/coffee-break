@@ -120,7 +120,7 @@ body {
   grid-gap: 2rem;
   width: 100%;
   height: 90px;
-  background-color: var(--bg-gray);
+  background: linear-gradient(transparent, var(--bg-gray) 15%);
   border-radius: 2rem 2rem 0 0;
 }
 
@@ -145,6 +145,18 @@ body {
 .toolbar button span {
   font-size: 0.75rem;
   font-family: var(--font-mono);
+}
+
+.about {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  font-weight: 500;
+  max-width: 70ch;
+  font-family: var(--font-sans);
+  border-radius: 8px;
+  background: var(--bg-gray);
+  color: var(--text-gray);
+  border: 1px solid var(--white);
 }
 
 

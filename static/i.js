@@ -1,71 +1,11 @@
-const startButton = document.getElementById(
-  'start-button'
-)
-const clockButton = document.getElementById(
-  'clock'
-)
-const statsButton = document.getElementById(
-  'stats'
-)
-const infoButton = document.getElementById(
-  'info'
-)
+(()=>{var N=Symbol();function I(t,i,...r){return t===N?r:typeof t=="function"?t({...i,children:r}):{...i,elem:t,children:r}}var h=(t,i)=>{let r={$el:t,elem:t.nodeName.toLowerCase()},a,m=()=>{a=p(r,i(),t),u(r),r=a},u=o=>{(o.children??[]).map(u),o.repaint||(o.$el.remove(),o=null)},p=(o,e,C)=>{Array.isArray(e)&&(e={children:e}),typeof e=="string"&&(e={innerText:e}),e.elem=e.elem||"span",!o||(a=o.elem!==e.elem)?(o&&a&&u(o),e.$el=document.createElement(e.elem),C.append(e.$el)):(o.repaint=!0,e.$el=o.$el,e.cleanup=o.cleanup);let{$el:l,elem:_,children:k,cleanup:E,...g}=e;if(E)for(let s in E)l.removeEventListener(s.substring(2),e.cleanup[s]);e.cleanup={};for(let s in g)typeof(a=g[s])>"u"||(s.indexOf("on")!=0?l[s]=a:l.addEventListener(s.substring(2),e.cleanup[s]=O=>{g[s](O),m()}));return k?{...e,children:k.map((s,O)=>p(o&&o.children&&o.children[O],s,l))}:e};return m(),m},n={dom:I,frag:N,init:h};var S=t=>{window.localStorage.setItem("token",t)},b=()=>{window.localStorage.getItem("token")};var c=0;async function v(){let t=b(),i=fetch("http://localhost:3000/api/start-recording",{method:"POST",body:JSON.stringify(t)});S(i.token),c=1}async function x(){let t=b(),i=fetch("http://localhost:3000/api/end-recording",{method:"POST",body:JSON.stringify(t)});S(i.token),c=0}var y=()=>{switch(c){case 0:c=3,v();break;case 1:c=2,x();break}},G=()=>{let t,i;switch(c){case 0:t="button button-up",i=n.dom("span",null,"\u041D\u0430\u0447\u0430\u0442\u044C \u043F\u0435\u0440\u0435\u0440\u044B\u0432");break;case 1:t="button button-down",i=n.dom("span",null,"\u041F\u0435\u0440\u0435\u0440\u044B\u0432 \u0432 \u043F\u0440\u043E\u0446\u0435\u0441\u0441\u0435");break;case 3:t="button button-down",i=n.dom("div",{className:"loader"});break;default:case 2:t="button button-up",i=n.dom("div",{className:"loader"});break}return{elem:"button",onclick:y,className:t,children:[i]}},P=()=>n.dom("div",{id:"root"},n.dom("div",{className:"button-wrapper"},n.dom(G,null)));var T=()=>n.dom("div",{id:"root"},"Stats page");var U=`
+\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C \u043D\u0430 \u0441\u0430\u0439\u0442 \u043E\u0442\u0441\u043B\u0435\u0436\u0438\u0432\u0430\u043D\u0438\u044F \u043A\u043E\u0444\u0435-\u0431\u0440\u0435\u0439\u043A\u043E\u0432 \u0441\u0431\u0435\u0440.tech!
 
-const EPAGES = {
-  CLOCK: 0,
-  STATS: 1,
-  INFO: 2,
-}
-const EButtonStates = {
-  UP: 0,
-  DOWN: 1,
-  MOVING_UP: 2,
-  MOVING_DOWN: 3,
-}
-let buttonState
-setButtonState(EButtonStates.UP)
-function setButtonState(newState) {
-  buttonState = newState
-  switch (newState) {
-    case EButtonStates.UP:
-      startButton.classList.remove('button-down')
-      startButton.classList.add('button-up')
-      startButton.innerHTML = '<span>Начать перерыв</span>'
-      break
-    case EButtonStates.DOWN:
-      startButton.classList.remove('button-up')
-      startButton.classList.add('button-down')
-      startButton.innerHTML = '<span>Перерыв в процессе</span>'
-      break
-    case EButtonStates.MOVING_DOWN:
-      startButton.classList.remove('button-up')
-      startButton.classList.add('button-down')
-      startButton.innerHTML = '<div class="loader"/>'
-      break
-    case EButtonStates.MOVING_UP:
-      startButton.classList.remove('button-down')
-      startButton.classList.add('button-up')
-      startButton.innerHTML = '<div class="loader"/>'
-      break
-  }
-}
+\u041C\u044B \u0432\u0441\u0435 \u0437\u043D\u0430\u0435\u043C, \u043A\u0430\u043A \u0432\u0430\u0436\u043D\u043E \u0434\u0435\u043B\u0430\u0442\u044C \u043F\u0435\u0440\u0435\u0440\u044B\u0432\u044B \u0438 \u0437\u0430\u0440\u044F\u0436\u0430\u0442\u044C\u0441\u044F \u044D\u043D\u0435\u0440\u0433\u0438\u0435\u0439 \u0432 \u0442\u0435\u0447\u0435\u043D\u0438\u0435 \u0440\u0430\u0431\u043E\u0447\u0435\u0433\u043E \u0434\u043D\u044F, \u0438 \u0447\u0442\u043E \u043C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C \u043B\u0443\u0447\u0448\u0435 \u0434\u043B\u044F \u044D\u0442\u043E\u0433\u043E, \u0447\u0435\u043C \u0432\u044B\u043F\u0438\u0442\u044C \u0447\u0430\u0448\u0435\u0447\u043A\u0443 \u0445\u043E\u0440\u043E\u0448\u0435\u0433\u043E \u043A\u043E\u0444\u0435? \u0412\u043E\u0442 \u0442\u0443\u0442-\u0442\u043E \u0438 \u043F\u0440\u0438\u0433\u043E\u0434\u0438\u0442\u0441\u044F \u043C\u043E\u0451 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435. \u0421 \u043F\u043E\u043C\u043E\u0449\u044C\u044E \u0444\u0443\u043D\u043A\u0446\u0438\u0438 \u043E\u0442\u0441\u043B\u0435\u0436\u0438\u0432\u0430\u043D\u0438\u044F \u043A\u043E\u0444\u0435-\u0431\u0440\u0435\u0439\u043A\u043E\u0432 \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u043B\u0435\u0433\u043A\u043E \u043E\u0442\u0441\u043B\u0435\u0436\u0438\u0432\u0430\u0442\u044C \u0432\u0440\u0435\u043C\u044F, \u043A\u043E\u0442\u043E\u0440\u043E\u0435 \u0432\u044B \u0442\u0440\u0430\u0442\u0438\u0442\u0435 \u043D\u0430 \u043A\u043E\u0444\u0435-\u0431\u0440\u0435\u0439\u043A\u0438, \u0438 \u0432\u0438\u0434\u0435\u0442\u044C, \u043A\u0430\u043A \u043E\u043D\u043E \u0441\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0432 \u0442\u0435\u0447\u0435\u043D\u0438\u0435 \u043D\u0435\u0434\u0435\u043B\u0438, \u043C\u0435\u0441\u044F\u0446\u0430 \u0438\u043B\u0438 \u0434\u0430\u0436\u0435 \u0433\u043E\u0434\u0430.
 
-async function requestStartRecording() {
-  setButtonState(EButtonStates.DOWN)
-}
-async function requestEndRecording() {
-  setButtonState(EButtonStates.UP)
-}
+\u042D\u0442\u043E \u043D\u0435 \u0442\u043E\u043B\u044C\u043A\u043E \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u044B\u0439 \u0441\u043F\u043E\u0441\u043E\u0431 \u0443\u0437\u043D\u0430\u0442\u044C, \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0432\u0440\u0435\u043C\u0435\u043D\u0438 \u0432\u044B \u0442\u0440\u0430\u0442\u0438\u0442\u0435 \u043D\u0430 \u043F\u0435\u0440\u0435\u0440\u044B\u0432\u044B, \u043D\u043E \u0438 \u043C\u043E\u0436\u0435\u0442 \u043F\u043E\u043C\u043E\u0447\u044C \u0432\u0430\u043C \u0431\u044B\u0442\u044C \u0431\u043E\u043B\u0435\u0435 \u0432\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u043C\u0438 \u043A \u0442\u043E\u043C\u0443, \u043A\u0430\u043A \u0432\u044B \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0442\u0435 \u0441\u0432\u043E\u0435 \u0432\u0440\u0435\u043C\u044F. \u041E\u0442\u0441\u043B\u0435\u0436\u0438\u0432\u0430\u044F \u0441\u0432\u043E\u0438 \u043F\u0435\u0440\u0435\u0440\u044B\u0432\u044B \u043D\u0430 \u043A\u043E\u0444\u0435 \u0438 \u0430\u043D\u0430\u043B\u0438\u0437\u0438\u0440\u0443\u044F \u0434\u0430\u043D\u043D\u044B\u0435, \u0432\u044B, \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E, \u0434\u0430\u0436\u0435 \u0441\u043C\u043E\u0436\u0435\u0442\u0435 \u043F\u0440\u043E\u0434\u0435\u043C\u043E\u043D\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0441\u0432\u043E\u0435\u043C\u0443 \u0440\u0430\u0431\u043E\u0442\u043E\u0434\u0430\u0442\u0435\u043B\u044E, \u0447\u0442\u043E \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u044B \u0431\u044B\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0438\u0432\u043D\u044B\u043C\u0438, \u0437\u0430\u0442\u0440\u0430\u0447\u0438\u0432\u0430\u044F \u043D\u0430 \u0440\u0430\u0431\u043E\u0442\u0443 \u043C\u0435\u043D\u044C\u0448\u0435 \u0432\u0440\u0435\u043C\u0435\u043D\u0438. \u041F\u043E\u0442\u0435\u043D\u0446\u0438\u0430\u043B\u044C\u043D\u043E \u044D\u0442\u043E \u043C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u043E \u0432 \u043A\u0430\u0447\u0435\u0441\u0442\u0432\u0435 \u0434\u043E\u043A\u0430\u0437\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u0430 \u0434\u043B\u044F \u043F\u0440\u043E\u0441\u044C\u0431\u044B \u043E \u043F\u043E\u0432\u044B\u0448\u0435\u043D\u0438\u0438 \u0437\u0430\u0440\u0430\u0431\u043E\u0442\u043D\u043E\u0439 \u043F\u043B\u0430\u0442\u044B \u0438\u043B\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043B\u044C\u0433\u043E\u0442\u0430\u0445.
 
-startButton.addEventListener('click', e => {
-  switch (buttonState) {
-    case EButtonStates.UP:
-      setButtonState(EButtonStates.MOVING_DOWN)
-      requestStartRecording()
-      break
-    case EButtonStates.DOWN:
-      setButtonState(EButtonStates.UP)
-      requestEndRecording()
-      break
-  }
-})
+\u041E\u0442\u0441\u043B\u0435\u0436\u0438\u0432\u0430\u043D\u0438\u0435 \u043A\u043E\u0444\u0435-\u0431\u0440\u0435\u0439\u043A\u043E\u0432 \u0442\u0430\u043A\u0436\u0435 \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u043E\u0442\u043B\u0438\u0447\u043D\u044B\u043C \u0441\u043F\u043E\u0441\u043E\u0431\u043E\u043C \u043E\u0441\u0442\u0430\u0432\u0430\u0442\u044C\u0441\u044F \u043D\u0430 \u0441\u0432\u044F\u0437\u0438 \u0441 \u043A\u043E\u043B\u043B\u0435\u0433\u0430\u043C\u0438 \u0438 \u0434\u0440\u0443\u0437\u044C\u044F\u043C\u0438, \u0434\u0430\u0436\u0435 \u0435\u0441\u043B\u0438 \u0432\u044B \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442\u0435 \u0443\u0434\u0430\u043B\u0435\u043D\u043D\u043E. \u0422\u0430\u043A \u0447\u0442\u043E \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0439\u0442\u0435, \u0441\u0434\u0435\u043B\u0430\u0439\u0442\u0435 \u043F\u0435\u0440\u0435\u0440\u044B\u0432 \u0438 \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u0438\u0442\u0435, \u043A\u0430\u043A \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435 \u0434\u043B\u044F \u043E\u0442\u0441\u043B\u0435\u0436\u0438\u0432\u0430\u043D\u0438\u044F \u043F\u0435\u0440\u0435\u0440\u044B\u0432\u043E\u0432 \u043D\u0430 \u043A\u043E\u0444\u0435 \u043C\u043E\u0436\u0435\u0442 \u043F\u043E\u043C\u043E\u0447\u044C \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C \u0432\u0430\u0448\u0435 \u0432\u0440\u0435\u043C\u044F \u043F\u0440\u043E\u0441\u0442\u043E\u044F.
+
+\u0418, \u043A\u0441\u0442\u0430\u0442\u0438, \u0435\u0441\u043B\u0438 \u0432\u044B \u0438\u0449\u0435\u0442\u0435 Software Engineer \u0432 \u0441\u0432\u043E\u044E \u043A\u043E\u043C\u0430\u043D\u0434\u0443, \u043D\u0435 \u0441\u0442\u0435\u0441\u043D\u044F\u0439\u0442\u0435\u0441\u044C \u043E\u0431\u0440\u0430\u0449\u0430\u0442\u044C\u0441\u044F \u043A\u043E \u043C\u043D\u0435!
+`,L=()=>n.dom("div",{id:"root"},n.dom("article",{className:"about"},U,n.dom("a",{href:"https://www.linkedin.com/in/tgy47/"},"LinkedIn")));var B=document.getElementById("root");var d=0,A=()=>{switch(d){case 1:return n.dom(T,null);case 2:return n.dom(L,null);default:case 0:return n.dom(P,null)}},f;B.innerHTML="";f=n.init(B,A);var D=document.getElementById("clock"),M=document.getElementById("stats"),W=document.getElementById("info");D.addEventListener("click",()=>{d=0,f()});M.addEventListener("click",()=>{d=1,f()});W.addEventListener("click",()=>{d=2,f()});})();

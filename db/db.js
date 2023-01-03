@@ -31,6 +31,20 @@ const db = {
       })
     })
   },
+  getAsync(...args) {
+    if (!this.database) {
+      return new Error(E_DB_NOT_OPEN)
+    }
+    return new Promise((resolve, reject) => {
+      this.database.get(...args, function(error, row) {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(row)
+        }
+      })
+    })
+  },
 }
 
 async function setup() {
@@ -74,6 +88,58 @@ async function endRecording(user_id) {
       [endTime, user_id]
     )
     db.close()
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function getUserId(token) {
+  try {
+    db.open()
+    const res = await db.getAsync(
+      'SELECT (user_id) WHERE token = ?',
+      [token]
+    )
+    db.close()
+    return res ? res.user_id : null
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function createUser() {
+  try {
+    const now = new Date()
+    const token = Math.floor(Math.random() * 1e10)
+    db.open()
+    await db.execAsync(
+      `INSERT INTO users
+      (last_seen, token)
+      VALUES (?, ?, ?)
+      `,
+      [now, token]
+    )
+    db.close()
+    return token
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+async function updateTokenForUser(user_id) {
+  try {
+    const now = new Date()
+    const token = Math.floor(Math.random() * 1e10)
+    db.open()
+    await db.execAsync(
+      `UPDATE users
+      SET last_seen = ?, token = ?
+      WHERE user_id = ?
+      `,
+      [now, token, user_id]
+    )
+    db.close()
+    return token
   } catch (e) {
     console.log(e)
   }
