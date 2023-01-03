@@ -1,4 +1,5 @@
 const url = require('url')
+const ERROR_MESSAGE = '{"message":"error"}'
 
 const E_UNHANDLED_ENDPOINT = 'UNHANDLED ENDPOINT'
 
@@ -17,12 +18,12 @@ async function handle(req) {
   const parsedUrl = url.parse(req.url)
   const path = parsedUrl.pathname
   const method = req.method
-  const body = ''
+  let body = ''
   const handler = routes[path]
     ? routes[path][method]
     : null
   if (typeof handler !== 'function') {
-    return new Promise((res, rej) => {res(null)})
+    return new Promise((res, rej) => {res(ERROR_MESSAGE)})
   }
 
   return new Promise((resolve, reject) => {
@@ -30,16 +31,16 @@ async function handle(req) {
       body += data
       if (body.length > 1000) {
         req.connection.destroy()
-        resolve(null)
+        resolve(ERROR_MESSAGE)
       }
     })
     req.on('end', async () => {
       try {
         const parsedBody = JSON.parse(body)
-        const prom = handler(parsedBody)
-        return await prom
+        const result =  await handler(parsedBody)
+        resolve(result)
       } catch(e) {
-        resolve(null)
+        resolve(ERROR_MESSAGE)
       }
     })
   })

@@ -12,20 +12,22 @@ let buttonState = EButtonStates.UP
 
 async function requestStartRecording() {
   const token = getToken()
-  const res = fetch('/api/start-recording', {
+  const res = await fetch('/api/start-recording', {
     method: 'POST',
     body: JSON.stringify(token),
   })
-  setToken(res.token)
+  const json = await res.json()
+  setToken(json.token)
   buttonState = EButtonStates.DOWN
 }
 async function requestEndRecording() {
   const token = getToken()
-  const res = fetch('/api/end-recording', {
+  const res = await fetch('/api/end-recording', {
     method: 'POST',
     body: JSON.stringify(token),
   })
-  setToken(res.token)
+  const json = await res.json()
+  setToken(json.token)
   buttonState = EButtonStates.UP
 }
 

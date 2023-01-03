@@ -6,24 +6,26 @@ const PORT = 3000
 
 router.post('/api/start-recording', async (body) => {
   let token = body.token
-  let user_id = await getUserId(token)
+  let user_id = await db.getUserId(token)
   if (user_id == null) {
-    token = await createUser()
-    user_id = await getUserId(token)
+    token = await db.createUser()
+    user_id = await db.getUserId(token)
   }
   await db.startRecording(user_id)
-  token = await updateTokenForUser(user_id)
+  token = await db.updateTokenForUser(user_id)
+  console.log('sr')
   return JSON.stringify({token})
 })
 router.post('/api/end-recording', async (body) => {
   let token = body.token
-  let user_id = await getUserId(token)
+  let user_id = await db.getUserId(token)
   if (user_id == null) {
-    token = await createUser()
-    user_id = await getUserId(token)
+    token = await db.createUser()
+    user_id = await db.getUserId(token)
   }
   await db.endRecording(user_id)
-  token = await updateTokenForUser(user_id)
+  token = await db.updateTokenForUser(user_id)
+  console.log('er')
   return JSON.stringify({token})
 })
 

@@ -17,12 +17,12 @@ const db = {
     }
     this.database.close()
   },
-  execAsync(...args) {
+  runAsync(...args) {
     if (!this.database) {
       return new Error(E_DB_NOT_OPEN)
     }
     return new Promise((resolve, reject) => {
-      this.database.exec(...args, function(error) {
+      this.database.run(...args, function(error) {
         if (error) {
           reject(error)
         } else {
@@ -51,7 +51,7 @@ async function setup() {
   try {
     db.open()
     const schema = readFileSync(SCHEMA_FILE, 'utf8')
-    await db.execAsync(schema)
+    await db.runAsync(schema)
     db.close()
   } catch (e) {
     console.log(e)
@@ -61,14 +61,16 @@ async function setup() {
 async function startRecording(
   user_id, location='unknown', purpose='coffee',
 ) {
+  if (user_id == null) return null
+
   try {
     db.open()
-    await db.execAsync(
+    await db.runAsync(
       `INSERT INTO coffee_breaks (
         user_id, location, purpose
       ) VALUES (?, ?, ?)
       `,
-      [user_id, startTime, location, purpose]
+      [user_id, location, purpose]
     )
     db.close()
   } catch (e) {
@@ -80,7 +82,7 @@ async function endRecording(user_id) {
   try {
     const endTime = new Date()
     db.open()
-    await db.execAsync(
+    await db.runAsync(
       `UPDATE coffee_breaks
       SET end_time = ?
       WHERE user_id = ? AND end_time = NULL
@@ -94,14 +96,16 @@ async function endRecording(user_id) {
 }
 
 async function getUserId(token) {
+  if (token == null) return null
+
   try {
     db.open()
     const res = await db.getAsync(
-      'SELECT (user_id) WHERE token = ?',
+      'SELECT (id) FROM users WHERE token = ?',
       [token]
     )
     db.close()
-    return res ? res.user_id : null
+    return res ? res.id : null
   } catch (e) {
     console.log(e)
   }
@@ -112,10 +116,10 @@ async function createUser() {
     const now = new Date()
     const token = Math.floor(Math.random() * 1e10)
     db.open()
-    await db.execAsync(
-      `INSERT INTO users
-      (last_seen, token)
-      VALUES (?, ?, ?)
+    await db.runAsync(
+      `INSERT INTO users (
+        last_seen, token
+      ) VALUES (?, ?)
       `,
       [now, token]
     )
@@ -127,14 +131,16 @@ async function createUser() {
 }
 
 async function updateTokenForUser(user_id) {
+  if (user_id == null) return null
+
   try {
     const now = new Date()
     const token = Math.floor(Math.random() * 1e10)
     db.open()
-    await db.execAsync(
+    await db.runAsync(
       `UPDATE users
       SET last_seen = ?, token = ?
-      WHERE user_id = ?
+      WHERE id = ?
       `,
       [now, token, user_id]
     )
@@ -150,4 +156,7 @@ module.exports = {
   setup,
   startRecording,
   endRecording,
+  getUserId,
+  createUser,
+  updateTokenForUser,
 }
