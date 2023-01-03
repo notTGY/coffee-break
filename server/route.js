@@ -1,7 +1,7 @@
 const url = require('url')
-const ERROR_MESSAGE = '{"message":"error"}'
-
-const E_UNHANDLED_ENDPOINT = 'UNHANDLED ENDPOINT'
+const EUNHANDLED = '{"message":"unhandled"}'
+const ETOO_MUCH_DATA = '{"message":"too much data"}'
+const ERUNTIME = '{"message":"RE"}'
 
 const routes = {}
 function register(method, path, handler) {
@@ -23,7 +23,7 @@ async function handle(req) {
     ? routes[path][method]
     : null
   if (typeof handler !== 'function') {
-    return new Promise((res, rej) => {res(ERROR_MESSAGE)})
+    return new Promise((res, rej) => {res(EUNHANDLED)})
   }
 
   return new Promise((resolve, reject) => {
@@ -31,16 +31,22 @@ async function handle(req) {
       body += data
       if (body.length > 1000) {
         req.connection.destroy()
-        resolve(ERROR_MESSAGE)
+        resolve(ETOO_MUCH_DATA)
       }
     })
     req.on('end', async () => {
+      let parsedBody
       try {
-        const parsedBody = JSON.parse(body)
+        parsedBody = JSON.parse(body)
+      } catch(e) {
+        parsedBody = {}
+      }
+      try {
         const result =  await handler(parsedBody)
         resolve(result)
       } catch(e) {
-        resolve(ERROR_MESSAGE)
+        console.log(e)
+        resolve(ERUNTIME)
       }
     })
   })

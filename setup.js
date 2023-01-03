@@ -9,4 +9,7 @@ build({
   logLevel: 'info',
 })
 
-db.setup()
+if (process.env.UPDATE_DB) {
+  console.log('updating DB!!!')
+  db.setup()
+}

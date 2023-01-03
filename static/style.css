@@ -82,8 +82,8 @@ body {
 
 .button-wrapper {
   width: 100%;
-  max-width: 640px;
-  padding: 0 8rem;
+  max-width: 480px;
+  padding: 0 1rem;
 }
 .button {
   width: 100%;

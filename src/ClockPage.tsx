@@ -14,7 +14,7 @@ async function requestStartRecording() {
   const token = getToken()
   const res = await fetch('/api/start-recording', {
     method: 'POST',
-    body: JSON.stringify(token),
+    body: JSON.stringify({token}),
   })
   const json = await res.json()
   setToken(json.token)
@@ -24,7 +24,7 @@ async function requestEndRecording() {
   const token = getToken()
   const res = await fetch('/api/end-recording', {
     method: 'POST',
-    body: JSON.stringify(token),
+    body: JSON.stringify({token}),
   })
   const json = await res.json()
   setToken(json.token)
