@@ -10,6 +10,7 @@ export const getTimes = (date) => {
   const weekStartTime =
     date.valueOf() - dayOffset*MS_IN_DAY
   const weekStart = new Date(weekStartTime)
+  weekStart.setHours(0, 0, 0, 0)
   const weekEnd = new Date(
     weekStartTime + 6*MS_IN_DAY
   )

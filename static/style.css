@@ -91,6 +91,7 @@ body {
   height: 90px;
   background: linear-gradient(transparent, var(--bg-gray) 15%);
   border-radius: 2rem 2rem 0 0;
+  user-select: none;
 }
 
 .toolbar button {
@@ -121,6 +122,7 @@ body {
   width: 100%;
   max-width: 480px;
   padding: 0 1rem;
+  user-select: none;
 }
 .button {
   width: 100%;
@@ -255,7 +257,7 @@ body {
   align-items: center;
   border: 8px solid transparent;
   background: var(--white);
-  font-size: 32px;
+  font-size: 16px;
   font-weight: 100;
   padding-bottom: 2px;
   font-family: var(--font-mono);

@@ -24,16 +24,22 @@ const calculateMetricsFromRange = (recordings, start, end) => {
       res[DELAY] += delay
     }
   }
-  res[CHILL] = Math.ceil(100 * res[LENGTH] / (1 + res[DELAY]))
+  res[CHILL] = res[DELAY]
+    ? Math.ceil(100 * res[LENGTH] / res[DELAY])
+    : 0
 
-  res[LENGTH] = Math.ceil(res[LENGTH] / res[COUNT])
-  res[DELAY] = Math.ceil(res[DELAY] / res[COUNT])
+  res[LENGTH] = res[COUNT]
+    ? Math.ceil(res[LENGTH] / res[COUNT])
+    : 0
+  res[DELAY] = res[COUNT]
+    ? Math.ceil(res[DELAY] / res[COUNT])
+    : 0
   return res
 }
 const constructDataFromRecordings = (recordings, start) => {
   const end = start + 7 * 86400000
   const week = calculateMetricsFromRange(recordings, start, end)
-  const timestamps = new Array(7).map(
+  const timestamps = new Array(7).fill(0, 0, 7).map(
     (_, index) => start + index * 86400000
   )
   const dailyData = timestamps.map(
@@ -43,6 +49,7 @@ const constructDataFromRecordings = (recordings, start) => {
       )
   )
   const day = {}
+
   day[COUNT] = dailyData.map(data => data[COUNT])
   day[LENGTH] = dailyData.map(data => data[LENGTH])
   day[CHILL] = dailyData.map(data => data[CHILL])

@@ -11,6 +11,6 @@ RUN npm i dotenv pg
 RUN npm rebuild
 
 CMD service nginx start && \
-# certbot -n --agree-tos --email "$EMAIL" --nginx -d xn--90ai7ab.tech && \
+  certbot -n --agree-tos --email "$EMAIL" --nginx -d xn--90ai7ab.tech && \
   npm run setup && \
   npm start

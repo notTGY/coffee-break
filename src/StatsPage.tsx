@@ -6,6 +6,7 @@ import { getTimes, MS_IN_DAY } from './utils.ts'
 
 const DESCRIPTION_TEXT =
 `Нажми на характеристику чтобы увидеть её статистику по дням недели.
+Время отображается в минутах.
 `
 
 enum ESTAT_TYPE {
@@ -40,6 +41,24 @@ const STAT_COLOR = {
 let day = new Date()
 let selectedStat = ESTAT_TYPE.NONE
 const cache = {}
+
+const format = (value, stat) => {
+  if (value == null) return null
+
+  switch (stat) {
+    case ESTAT_TYPE.DELAY:
+    case ESTAT_TYPE.LENGTH:
+      return Math.ceil(Number(value) / 60000).toString()
+      break
+    case ESTAT_TYPE.CHILL:
+      return `${value}%`
+      break
+    default:
+    case ESTAT_TYPE.COUNT:
+      return value.toString()
+      break
+  }
+}
 
 const requestStats = async (start) => {
   const token = getToken()
@@ -134,7 +153,7 @@ const SelectOption = ({stat, data}) => {
             ? (
             <span
               className="selector-data"
-              innerText={data}
+              innerText={format(data, stat)}
               style={`color:${STAT_COLOR[stat]}`}
             />
             ) : <div className="loader"/>
@@ -188,20 +207,21 @@ const DetailedData = ({data}) => {
   if (selectedStat === ESTAT_TYPE.NONE) {
     sanitizedData = []
   }
+  const readyData = sanitizedData.map(
+    data => format(data, selectedStat)
+  )
   return {
     elem: 'div',
     className: 'detailed-data',
-    children: sanitizedData.map(InfoCircle)
+    children: readyData.map(InfoCircle)
   }
 }
 
 export const StatsPage = () => {
-  const data = getData()
-
   const {
     week,
     day,
-  } = data
+  } = getData()
 
   return (
     <div id="root">
