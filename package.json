@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "compile": "esbuild src/index.tsx --outfile=static/i.js --bundle --minify",
     "setup": "node setup.js"
   },
   "repository": {
@@ -18,7 +19,8 @@
   },
   "homepage": "https://github.com/notTGY/coffee-break#readme",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "esbuild": "^0.16.12",
-    "sqlite3": "^5.1.4"
+    "pg": "^8.8.0"
   }
 }

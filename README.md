@@ -4,14 +4,22 @@
 
 ## how to run Docker
 
-1. compile docker image
+0. compile Javascript
 ```
-docker build -t cbrk-image .
+npm run compile
+```
+```
+yarn compile
 ```
 
-2. run docker image (mount `./sqlite/` to access db)
+1. compile docker image
 ```
-docker run -e UPDATE_DB=true -e EMAIL=mike.oxmaul.spam@gmail.com -d -v sqlite:/sqlite -p 80:80 -p 443:443 cbrk-image
+docker build -t cbrkim .
+```
+
+2. run docker image
+```
+docker run -e UPDATE_DB=true -e EMAIL=mike.oxmaul.spam@gmail.com -d -p 80:80 -p 443:443 cbrkim
 ```
 
 3. stop and remove

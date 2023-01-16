@@ -7,7 +7,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY static /usr/share/nginx/html
 COPY . .
 
-RUN npm i sqlite3 esbuild
+RUN npm i dotenv pg
 RUN npm rebuild
 
 CMD service nginx start && \

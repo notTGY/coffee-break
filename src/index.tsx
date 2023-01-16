@@ -30,6 +30,7 @@ const App = () => {
 let rerender
 root.innerHTML = ''
 rerender = happyFramework.init(root, App)
+window.rerender = rerender
 
 const clockButton = document.getElementById(
   'clock'

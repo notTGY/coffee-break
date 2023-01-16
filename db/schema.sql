@@ -1,17 +1,18 @@
-DROP TABLE IF EXISTS coffee_breaks;
+DROP TABLE IF EXISTS breaks;
 DROP TABLE IF EXISTS users;
 
-CREATE TABLE coffee_breaks (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id INTEGER NOT NULL,
-  start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  end_time TIMESTAMP,
-  location TEXT,
-  purpose TEXT
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  gh_token TEXT NOT NULL,
+  last_seen TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  token TEXT NOT NULL,
-  last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE breaks (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users (id),
+  start_time TIMESTAMP DEFAULT NOW(),
+  end_time TIMESTAMP,
+  is_finished BOOLEAN,
+  location TEXT,
+  purpose TEXT
 );
