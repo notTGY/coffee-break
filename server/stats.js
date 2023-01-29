@@ -70,7 +70,7 @@ const handle = async (body) => {
   const {
     token,
     error,
-  } = ghAuth(clientToken)
+  } = await ghAuth(clientToken)
 
   if (error) {
     message = error

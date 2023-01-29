@@ -8,7 +8,7 @@ const handleToggle = async (body) => {
   const {
     token,
     error,
-  } = ghAuth(clientToken)
+  } = await ghAuth(clientToken)
 
   if (error) {
     message = error
@@ -43,7 +43,7 @@ const handleStatus = async (body) => {
   const {
     token,
     error,
-  } = ghAuth(clientToken)
+  } = await ghAuth(clientToken)
 
   if (error) {
     message = error

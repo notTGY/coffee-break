@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/notTGY/coffee-break#readme",
   "dependencies": {
+    "axios": "^1.2.3",
     "dotenv": "^16.0.3",
     "esbuild": "^0.16.12",
     "pg": "^8.8.0"
