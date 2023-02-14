@@ -19,7 +19,7 @@ docker build -t cbrkim .
 
 2. run docker image
 ```
-docker run -e UPDATE_DB=true -e EMAIL=mike.oxmaul.spam@gmail.com -d -p 80:80 -p 443:443 cbrkim
+docker run -e UPDATE_DB=true -d -p 80:80 cbrkim
 ```
 
 3. stop and remove
